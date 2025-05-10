@@ -17,11 +17,16 @@ class FollowRequest < ApplicationRecord
     :uniqueness => { :scope => [:sender_id] }
   })
 
+  scope :follow_accepted, -> { where(accepted: "accepted") }
+
   # Association accessor methods to define:
   
   ## Direct associations
 
   # FollowRequest#sender: returns a row from the users table associated to this follow request by the sender_id column
+  belongs_to(:sender, class: "User", foreign_key: "sender_id", primary_key: "id")
 
   # FollowRequest#recipient: returns a row from the users table associated to this follow request by the recipient_id column
+  belongs_to(:recipient, class: "User", foreign_key: "recipient_id", primary_key: "id")
+
 end
